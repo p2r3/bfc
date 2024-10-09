@@ -8,7 +8,7 @@ The compiler features something resembling a tokenizer, an AST, and a stack, tho
 
 ## Usage
 
-When running the project using `bun run main.js`, the compiler will look for an `input.bfc` file and output an `input.bf` file in the current working directory. There are currently no supported command line arguments or flags. As such, compiler features (see the respective section below) have to be toggled by changing constants in the compiler code.
+Download the appropriate executable for your system from Releases, then run it on the command line. Alternatively, clone the project and use `bun run main.js`.
 
 ## The language
 

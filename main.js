@@ -1,9 +1,40 @@
-// compiler features
-const comments = true;
-const debug = true;
-const optimize = false;
+const process = require("process");
 
+const args = Bun.argv.slice(2);
 
+function printUsage () {
+  console.log(`
+BFC compiles human-readable high-level code to brainfuck.
+
+Usage: bfc <input.bfc> [...flags] [--output|-o output.b]
+
+Flags:
+  --comments | -c          Enable compiler comments in output
+  --debug    | -d          Enable debug symbols in output
+  --optimize | -O          Enable basic optimization of output
+  --help     | -h          Display this usage text and quit
+`);
+}
+
+if (args.includes("--help") || args.includes("-h") || args.length === 0) {
+  printUsage();
+  process.exit(0);
+}
+
+const comments = args.includes("--comments") || args.includes("-c");
+const debug = args.includes("--debug") || args.includes("-d");
+const optimize = args.includes("--optimize") || args.includes("-O");
+
+const inputFileName = args.find(c => !c.startsWith("--"));
+if (!inputFileName) throw "no input file provided.";
+
+let outputFileName = inputFileName.split(".").slice(0, -1).join(".") + ".b";
+
+const outputFlag = args.indexOf("-o") || args.indexOf("--output");
+if (outputFlag !== -1 && outputFlag < args.length - 1) {
+  outputFileName = args[outputFlag + 1];
+  if (!outputFileName.endsWith(".b")) outputFileName += ".b";
+}
 
 function extractToken (string, token) {
 
@@ -44,8 +75,10 @@ function tokenize (string) {
 
 }
 
-const file = await Bun.file("./input.bfc").text();
-const tokens = tokenize(file);
+const file = Bun.file(inputFileName);
+if (file.size === 0) throw "input file not found or empty.";
+
+const tokens = tokenize(await file.text());
 
 function createEnum (values) {
   const enumObject = {};
@@ -600,4 +633,5 @@ if (optimize) {
   }
 }
 
-await Bun.write("output.bf", program);
+await Bun.write(outputFileName, program);
+console.log(`program written to \`${outputFileName}\`.`);
