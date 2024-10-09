@@ -54,9 +54,3 @@ This program will produce brainfuck code that prints 5 lines of "Hi" to stdout:
 ```b
 >>>>+++++<+[-<[-]>>[-<<+<<+>>>>]<<<<[->>>>+<<<<]>[-][->-<]>[[-]>>[-<<<+<+>>>>]<<<<[->>>>+<<<<]>->>>[-]<<<[->>>+<<<<+>]<[->+<]>[-]++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.[-]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.[-]++++++++++.[-]>>+<[-]]>]<
 ```
-
-## Compiler features
-
-By default, the compiler will insert comments and debug symbols into the output file. These can be disabled by setting `comments` and `debug` respectively to false in the code.
-
-Optionally, basic optimization is available via the `optimize` flag, which is false by default. Optimized programs should function identically, as no logic is reevaluated.
